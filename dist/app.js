@@ -8,6 +8,9 @@ const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const routes_1 = __importDefault(require("./routes"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 // Creates and configures an ExpressJS web server.
 class App {
     static bootstrap() {
@@ -22,9 +25,23 @@ class App {
         this.app = express_1.default();
         this.app.use("/", routes_1.default);
         this.middleware();
-        console.log("Yeyyy.... Express in online");
-        console.log("Now configure your routes and everything should work");
-        // todo: prepare your db here
+        mongoose_1.default.connect(process.env.DB_URL);
+        var db = mongoose_1.default.connection;
+        db.on("error", console.error.bind(console, "connection error:"));
+        db.once("open", function () {
+            let subject = new mongoose_1.default.Schema({
+                name: String,
+                id: String,
+                sections: Object
+            }, { collection: "1/2017" });
+            let Subject = mongoose_1.default.model("Subject", subject);
+            let q = Subject.find({ id: "2190101" }).select("id name sections");
+            q.exec((err, sub) => {
+                sub.forEach((e) => {
+                    console.log(e.sections);
+                });
+            });
+        });
     }
     middleware() {
         this.app.use(morgan_1.default("dev"));

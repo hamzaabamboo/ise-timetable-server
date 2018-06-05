@@ -4,7 +4,9 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import router from "./routes";
-
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 // Creates and configures an ExpressJS web server.
 export class App {
   public app: express.Application;
@@ -21,11 +23,27 @@ export class App {
     this.app = express();
     this.app.use("/", router);
     this.middleware();
+    mongoose.connect(process.env.DB_URL as string);
 
-    console.log("Yeyyy.... Express in online");
-    console.log("Now configure your routes and everything should work");
-
-    // todo: prepare your db here
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connection error:"));
+    db.once("open", function() {
+      let subject = new mongoose.Schema(
+        {
+          name: String,
+          id: String,
+          sections: Object
+        },
+        { collection: "1/2017" }
+      );
+      let Subject = mongoose.model("Subject", subject);
+      let q = Subject.find({ id: "2190101" }).select("id name sections");
+      q.exec((err, sub) => {
+        sub.forEach((e: any) => {
+          console.log(e.sections);
+        });
+      });
+    });
   }
   private middleware(): void {
     this.app.use(logger("dev"));

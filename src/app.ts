@@ -18,32 +18,31 @@ export class App {
    * Configure Express middleware.
    */
   constructor() {
-    // todo: prepare your db credentials, promise modifiers etc here
-    // -->Init: routes
     this.app = express();
     this.app.use("/", router);
     this.middleware();
     mongoose.connect(process.env.DB_URL as string);
 
-    var db = mongoose.connection;
-    db.on("error", console.error.bind(console, "connection error:"));
-    db.once("open", function() {
-      let subject = new mongoose.Schema(
-        {
-          name: String,
-          id: String,
-          sections: Object
-        },
-        { collection: "1/2017" }
-      );
-      let Subject = mongoose.model("Subject", subject);
-      let q = Subject.find({ id: "2190101" }).select("id name sections");
-      q.exec((err, sub) => {
-        sub.forEach((e: any) => {
-          console.log(e.sections);
-        });
-      });
-    });
+    // Graveyard
+    // var db = mongoose.connection;
+    // db.on("error", console.error.bind(console, "connection error:"));
+    // db.once("open", function() {
+    //   let subject = new mongoose.Schema(
+    //     {
+    //       name: String,
+    //       id: String,
+    //       sections: Object
+    //     },
+    //     { collection: "1/2017" }
+    //   );
+    //   let Subject = mongoose.model("Subject", subject);
+    //   let q = Subject.find({ id: "2190101" }).select("id name sections");
+    //   q.exec((err, sub) => {
+    //     sub.forEach((e: any) => {
+    //       // console.log(e.sections);
+    //     });
+    //   });
+    // });
   }
   private middleware(): void {
     this.app.use(logger("dev"));

@@ -6,7 +6,9 @@
     "start": "node ./bin/www",
     "tsc": "tsc",
     "watch": "tsc --watch",
-    "dev": "NODE_ENV=development && nodemon ./bin/www"
+    "dev": "SET NODE_ENV=development && nodemon ./bin/www",
+    "build": "tsc",
+    "postinstall": "yarn build",
   },
   "dependencies": {
     "@types/body-parser": "^1.17.0",

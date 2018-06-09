@@ -9,16 +9,6 @@ router.get('/', (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     let arrayOfSubject: any[] = []
-    // req.body.forEach(async element => {
-    //     const subject = await SubjectModel.findOne({ id: element.subject })
-    //     if (subject !== null) {
-    //         const sec = await subject.sections[element.section]
-    //         console.log(sec)
-    //         // if (sec !== undefined)
-    //         a.push(sec)
-    //         console.log(a)
-    //     }
-    // })
     await Promise.all(
         req.body.map(element =>
             (async () => {
@@ -39,13 +29,11 @@ router.post('/', async (req, res, next) => {
                         section: element.section,
                         ...sec
                     }
-
                     arrayOfSubject.push(sec)
                 } else res.status(401).send('error subject not found')
             })()
         )
     )
-    console.log(arrayOfSubject)
 
     res.send(arrayOfSubject)
 })

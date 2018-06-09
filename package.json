@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "tsc": "tsc",
     "watch": "tsc --watch",
-    "dev": "SET NODE_ENV=development && nodemon ./bin/www"
+    "dev": "NODE_ENV=development && nodemon ./bin/www"
   },
   "dependencies": {
     "@types/body-parser": "^1.17.0",

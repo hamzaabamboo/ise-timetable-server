@@ -3,20 +3,7 @@ import { Document, Model, model, Schema } from "mongoose";
 export interface ISubject extends Document {
   id: string;
   name: string;
-  sections: [
-    {
-      times: [
-        {
-          type: string;
-          time: string;
-          day: boolean;
-          building: string;
-          room: string;
-        }
-      ];
-      instructor: string;
-    }
-  ];
+  sections: object;
 }
 
 export interface ISubjectModel extends Model<ISubject> {}
@@ -24,23 +11,10 @@ export interface ISubjectModel extends Model<ISubject> {}
 const SubjectSchema = new Schema({
   id: String,
   name: String,
-  sections: [
-    {
-      times: [
-        {
-          type: String,
-          time: String,
-          day: Boolean,
-          building: String,
-          room: String
-        }
-      ],
-      instructor: String
-    }
-  ]
+  sections: Object
 });
 
 export const SubjectModel: Model<ISubject> = model<ISubject>(
-  "Subject",
+  "1/2017",
   SubjectSchema
 );

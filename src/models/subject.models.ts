@@ -7,7 +7,7 @@ export interface ISubject extends Document {
     sections: object
 }
 
-export interface ISubjectModel extends Model<ISubject> {}
+export interface ISubjectModel extends Model<ISubject> { }
 
 const SubjectSchema = new Schema({
     id: String,
@@ -17,6 +17,6 @@ const SubjectSchema = new Schema({
 })
 
 export const SubjectModel: Model<ISubject> = model<ISubject>(
-    '1/2017',
+    '1/2018',
     SubjectSchema
 )

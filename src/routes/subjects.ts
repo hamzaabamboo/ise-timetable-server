@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-    let arrayOfSubject: any[] = []
+    let arrayOfSubject: object[] = []
     await Promise.all(
         req.body.map(element =>
             (async () => {
@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
                     let sec = subject.sections[element.section]
                     console.log('section', sec)
                     if (sec === undefined)
-                        res.status(401).send('error section not found')
+                        res.status(404).send('error section not found')
                     let { id, name, credit } = subject
                     sec = {
                         id,
@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
                         ...sec
                     }
                     arrayOfSubject.push(sec)
-                } else res.status(401).send('error subject not found')
+                } else res.status(404).send('error subject not found')
             })()
         )
     )
@@ -43,14 +43,14 @@ router.get('/:id', async (req, res, next) => {
     const subject = await SubjectModel.findOne({ id: id })
     console.log(subject)
     if (subject) res.send(subject)
-    else res.status(401).send('error subject not found')
+    else res.status(404).send('error subject not found')
 })
 
 router.get('/:id/:section', async (req, res, next) => {
     const { id, section } = req.params
     const subject = await SubjectModel.findOne({ id: id })
     console.log(subject)
-    if (subject === null) res.status(401).send('error subject not found')
+    if (subject === null) res.status(404).send('error subject not found')
     else {
         const result = subject.sections[section]
         if (result) res.send(subject.sections[section])

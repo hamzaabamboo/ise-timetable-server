@@ -7,7 +7,7 @@ export interface ISubject extends Document {
     sections: object
 }
 
-export interface ISubjectModel extends Model<ISubject> {}
+export interface ISubjectModel extends Model<ISubject> { }
 
 const SubjectSchema = new Schema({
     id: String,

@@ -3,8 +3,9 @@ import { Router } from 'express'
 import { SubjectModel } from '../models/subject.models'
 export const router = Router()
 /* GET users listing. */
-router.get('/', (req, res, next) => {
-    res.send('respond with a resource')
+router.get('/', async (req, res, next) => {
+    const subjects = await SubjectModel.find()
+    res.send(subjects)
 })
 
 router.post('/', async (req, res, next) => {

@@ -30,7 +30,8 @@ export class App {
         this.app.use(cookieParser())
     }
     private routes(): void {
-        this.app.use('/', router)
+        this.app.use('/api', router)
+        this.app.use(express.static(path.join(__dirname, '/public')))
         // catch 404 and forward to error handler
         this.app.use((req, res, next) => {
             const err = new Error('Not Found')
